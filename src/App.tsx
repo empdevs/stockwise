@@ -1,25 +1,67 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect } from 'react';
 import './App.css';
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
+import Main from './pages/Main';
+import Login from './pages/Login';
 
 function App() {
+
+  // const history = useHistory();
+  // function authentication() {
+  //   const hasLogin = localStorage.getItem("user");
+  //   if (hasLogin) history.push("/Index/Landing");
+  //   else history.push("/Login");
+  // }
+
+  // useEffect(() => {
+  //   // console.log("App");
+  //   authentication();
+  // }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Switch>
+      <Route
+        exact
+        path="/"
+      >
+        <Redirect to="/Index" />
+      </Route>
+      <Route
+        // exact
+        path="/Login"
+        render={() => {
+          return (
+            // <Login
+            //   authentication={authentication}
+            // />
+            <Login
+              authentication={() => { }}
+            />
+          )
+        }}
+      />
+      <Route
+        // exact
+        path="/Index"
+        render={() => {
+          return (
+            <Main />
+          )
+        }}
+      />
+      {/* <Redirect from='/' to="/Login" /> */}
+      <Route
+        path="/*"
+        render={() => {
+          return (
+            <div>
+              Not Found
+            </div>
+          )
+        }}
+      >
+      </Route>
+    </Switch>
   );
 }
 

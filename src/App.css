@@ -1,38 +1,56 @@
-.App {
+.custom-table-container .ant-input-search {
+  /* border-radius: 20px; */
+  overflow: hidden;
+}
+
+.ant-table-thead>tr>th {
+  background-color: #1c355e !important;
+  color: white !important;
+  font-weight: bold;
+  text-align: center !important;
+}
+
+.custom-row {
+  background-color: #2db5a7;
+  color: white;
+  margin: 5px 0;
+  overflow: hidden;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.custom-row td {
+  background-color: #2db5a7 !important;
+  border: none !important;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.action-link {
   color: white;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+.ant-table {
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.custom-input .ant-input-group-addon {
+  background-color: white;
+}
+
+.custom-input input[disabled] {
+  color: #000000;
+  /* Or any readable color */
+  background-color: #e6e6e6;
+  /* Optional: better contrast */
+  opacity: 1;
+  /* Prevent default Ant Design gray-out */
+}
+
+.custom-input .ant-input-group-addon input[disabled] {
+  color: #000000;
+  /* Or any readable color */
+  background-color: #e6e6e6;
+  /* Optional: better contrast */
+  opacity: 1;
+  /* Prevent default Ant Design gray-out */
 }
