@@ -6,13 +6,10 @@ import SupplierAssessment from "./SupplierAssessment";
 
 
 
-interface ISuppliersPage {
+interface ISupplierPivot {
 }
 
-const Suppliers: React.FunctionComponent<ISuppliersPage> = (props: ISuppliersPage) => {
-
-
-
+const SupplierPivot: React.FunctionComponent<ISupplierPivot> = (props: ISupplierPivot) => {
     return (
         <div>
             <Tabs defaultActiveKey="1">
@@ -28,4 +25,4 @@ const Suppliers: React.FunctionComponent<ISuppliersPage> = (props: ISuppliersPag
     )
 }
 
-export default Suppliers;
+export default SupplierPivot;

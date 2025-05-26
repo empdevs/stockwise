@@ -11,6 +11,9 @@ import {
 import { Link, Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Suppliers from "./SupplierPivot";
+import SupplierPivot from "./SupplierPivot";
+import ItemPivot from "./ItemPivot";
+import OrderPivot from "./OrderPivot";
 
 const { Header, Sider, Content } = Layout;
 
@@ -58,10 +61,26 @@ const Main: React.FC = () => {
                             }}
                         />
                         <Route
+                            path={`${url}/Items`}
+                            render={() => {
+                                return (
+                                    <ItemPivot />
+                                )
+                            }}
+                        />
+                        <Route
                             path={`${url}/Suppliers`}
                             render={() => {
                                 return (
-                                    <Suppliers />
+                                    <SupplierPivot />
+                                )
+                            }}
+                        />
+                        <Route
+                            path={`${url}/Orders`}
+                            render={() => {
+                                return (
+                                    <OrderPivot />
                                 )
                             }}
                         />

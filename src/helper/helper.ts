@@ -1,4 +1,4 @@
-import { SortDirection } from "../Types";
+import { IAuditTrail, IItem, SortDirection } from "../Types";
 
 export const applyTextPlaceholders = (string: string, keyValuePair: any): string => {
     if (!string) return "";
@@ -17,7 +17,7 @@ export const applyTextPlaceholders = (string: string, keyValuePair: any): string
     return string;
 }
 
-export   function sortItems<T>(
+export function sortItems<T>(
     items: T[],
     key: keyof T,
     direction: SortDirection = 'asc'
@@ -74,4 +74,54 @@ export   function sortItems<T>(
     });
 
     return sortedItems;
+}
+
+export const rupiahFormat = (value: number) => {
+    return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0
+    }).format(value);
+};
+
+export function parsePercentage(str: string) {
+    return parseFloat(str.replace('%', ''));
+}
+
+export function percentToDecimal(str: string): number {
+    return parseFloat(str) / 100;
+}
+
+export function sumArray(numbers: number[]) {
+    let sum = 0;
+    for (let i = 0; i < numbers.length; i++) {
+        sum += numbers[i];
+    }
+    return sum;
+}
+
+export function auditLogItemGenerate(newValue: IItem, oldValue: IItem, action: IAuditTrail["action"]): IAuditTrail {
+    let result: IAuditTrail = {
+        itemId: newValue.id!,
+        itemCode: newValue.itemCode!,
+        action: action,
+        changes: [],
+        description: "",
+    }
+
+    let changes: IAuditTrail["changes"] = [];
+
+    for (const key in newValue) {
+        const newVal = newValue[key as keyof IItem];
+        const oldVal = oldValue[key as keyof IItem];
+        if (newVal !== oldVal) {
+            changes.push({
+                fieldName: key as keyof IItem,
+                newValue: newVal,
+                oldValue: oldVal
+            })
+        }
+    }
+    result.changes = changes;
+    return result;
 }

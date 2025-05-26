@@ -54,3 +54,155 @@
   opacity: 1;
   /* Prevent default Ant Design gray-out */
 }
+
+.custom-input .ant-select-selector {
+  border-radius: 0%;
+}
+
+
+.login-container {
+  display: flex;
+  height: 100vh;
+}
+
+.left-section {
+  /* flex: 1; */
+  background-color: #2db5a7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  width: 65%;
+}
+
+.illustration {
+  max-width: 600px;
+}
+
+.illustration h2 {
+  font-size: 1.5em;
+  margin-top: 20px;
+}
+
+.illustration p {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+
+.illustration-image {
+  width: 100%;
+  height: auto;
+}
+
+.right-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-box {
+  max-width: 300px;
+  width: 100%;
+  /* text-align: center; */
+}
+
+.login-box img {
+  width: 100%;
+}
+
+
+.subtitle {
+  color: #f47b20;
+  margin-top: -10px;
+  font-size: 0.9em;
+  letter-spacing: 1px;
+}
+
+.login-box h2 {
+  /* margin-top: 20px; */
+  font-size: 1.2em;
+  color: #333;
+}
+
+.login-box p {
+  font-size: 0.9em;
+  color: #555;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+form button {
+  width: 30%;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"] {
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.login-box button {
+  padding: 10px;
+  font-size: 1em;
+  color: white;
+  background-color: #0078d4;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.login-box button:hover {
+  background-color: #0078d4;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .login-container {
+    /* flex-direction: column; */
+    display: flex;
+    align-items: center;
+  }
+
+  .left-section {
+    display: none;
+  }
+
+  .right-section {
+    flex: unset;
+    width: 100%;
+    height: auto;
+  }
+
+  .login-box {
+    max-width: 90%;
+  }
+
+  .profile-page {
+    flex-direction: column;
+  }
+
+  .profile-details {
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+    padding-right: 0;
+    padding-bottom: 20px;
+  }
+
+  .connections {
+    margin-top: 20px;
+    padding-left: 0px;
+  }
+}

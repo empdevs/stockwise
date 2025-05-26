@@ -8,4 +8,14 @@ export class Uri {
     public static get GetSupplierAssessments(): string { return import.meta.env["VITE_APP_API_GET_SUPPLIER_ASSESSMENTS"] || "" }
     public static get GetSupplierAssessmentDetail(): string { return import.meta.env["VITE_APP_API_GET_SUPPLIER_ASSESSMENT_DETAIL"] || "" }
     public static get PatchSupplierAssessment(): string { return import.meta.env["VITE_APP_API_PATCH_SUPPLIER_ASSESSMENT"] || "" }
+    public static get GetItems(): string { return import.meta.env["VITE_APP_API_GET_ITEMS"] || "" }
+    public static get GetCategories(): string { return import.meta.env["VITE_APP_API_GET_CATEGORIES"] || "" }
+    public static get GetItemUnits(): string { return import.meta.env["VITE_APP_API_GET_ITEM_UNITS"] || "" }
+    public static get InsertItem(): string { return import.meta.env["VITE_APP_API_GET_INSERT_ITEM"] || "" }
+    public static get PatchItem(): string { return import.meta.env["VITE_APP_API_PATCH_ITEM"] || "" }
+    public static get DeleteItem(): string { return import.meta.env["VITE_APP_API_DELETE_ITEM"] || "" }
+    public static get GetIncomingStock(): string { return import.meta.env["VITE_APP_API_GET_INCOMING_STOCK"] || "" }
+    public static get InsertIncomingStock(): string { return import.meta.env["VITE_APP_API_INSERT_INCOMING_STOCK"] || "" }
+    public static get CreateTransaction(): string { return import.meta.env["VITE_APP_API_CREATE_TRANSACTION"] || "" }
+    public static get GetTransactions(): string { return import.meta.env["VITE_APP_API_GET_TRANSACTIONS"] || "" }
 }

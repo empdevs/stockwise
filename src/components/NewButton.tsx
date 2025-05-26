@@ -1,6 +1,6 @@
 import { Button } from "antd";
 
-const NewButton = (props: { onClick: Function }) => {
+const NewButton = (props: { onClick: Function, text: string }) => {
     return (
         <Button
             type="primary"
@@ -14,7 +14,7 @@ const NewButton = (props: { onClick: Function }) => {
             }}
             onClick={() => props.onClick()}
         >
-            New
+            {props.text}
         </Button>
     );
 };

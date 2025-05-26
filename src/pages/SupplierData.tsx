@@ -228,6 +228,7 @@ const SupplierData: React.FunctionComponent<ISupplierData> = (props: ISupplierDa
         <div>
             <Stack horizontalAlign="end">
                 <NewButton
+                    text="New"
                     onClick={() => {
                         setOpen(true);
                         setActionMode("CREATE");
