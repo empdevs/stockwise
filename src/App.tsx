@@ -10,7 +10,7 @@ function App() {
   function authentication() {
     console.log(history);
     const accessToken = localStorage.getItem("accessToken");
-    if (accessToken) history.push("/Index/Landing");
+    if (accessToken) history.push("/Index/Dashboard");
     else history.push("/Login");
   }
   useEffect(() => {

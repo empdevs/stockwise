@@ -34,7 +34,7 @@ const Login: React.FC<ILogin> = (props: ILogin) => {
                 localStorage.setItem("accessToken", user.accessToken!);
                 setUsername("");
                 setPassword("");
-                history.push('Index/Landing');
+                history.push('Index/Dashboard');
                 message.success("Login successfully");
             } else {
                 message.error("Incorrect username or password!");
