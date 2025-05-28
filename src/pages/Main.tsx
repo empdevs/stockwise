@@ -43,7 +43,7 @@ const Main: React.FC = () => {
             <Sider theme="light">
                 <div style={{ height: 64, textAlign: "center", marginBottom: 30 }}>
                     <img
-                        src="/images/stockwise.webp"
+                        src="/public/stockwise.webp"
                         alt="Stockwise Logo"
                         style={{ width: 120 }}
                     />

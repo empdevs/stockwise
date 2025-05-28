@@ -53,14 +53,14 @@ const Login: React.FC<ILogin> = (props: ILogin) => {
                 <div className="left-section">
                     <div className="illustration">
                         {/* Replace with actual image when available */}
-                        <img src="/images/img-login.webp" alt="Stockwise" className="illustration-image" />
+                        <img src="/public/img-login.webp" alt="Stockwise" className="illustration-image" />
                         <h2>TURN INVENTORY INTO INSIGHT</h2>
                         <p>Smarter stock means smarter decisions!</p>
                     </div>
                 </div>
                 <div className="right-section">
                     <div className="login-box">
-                        <img src="/images/stockwise.webp" />
+                        <img src="/public/stockwise.webp" />
                         <h2>Login</h2>
                         <p>Optimize your inventory. Let's begin!</p>
                         <form onSubmit={handleLogin}>
