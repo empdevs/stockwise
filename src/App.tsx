@@ -6,18 +6,16 @@ import Login from './pages/Login';
 
 function App() {
 
-  // const history = useHistory();
-  // function authentication() {
-  //   const hasLogin = localStorage.getItem("user");
-  //   if (hasLogin) history.push("/Index/Landing");
-  //   else history.push("/Login");
-  // }
-
-  // useEffect(() => {
-  //   // console.log("App");
-  //   authentication();
-  // }, []);
-
+  const history = useHistory();
+  function authentication() {
+    console.log(history);
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) history.push("/Index/Landing");
+    else history.push("/Login");
+  }
+  useEffect(() => {
+    authentication();
+  }, []);
   return (
     <Switch>
       <Route
@@ -31,11 +29,8 @@ function App() {
         path="/Login"
         render={() => {
           return (
-            // <Login
-            //   authentication={authentication}
-            // />
             <Login
-              authentication={() => { }}
+              authentication={authentication}
             />
           )
         }}

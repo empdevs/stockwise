@@ -54,6 +54,7 @@ const Dashboard: React.FunctionComponent<IDashboard> = (props: IDashboard) => {
                     columns={columns}
                     dataSource={data}
                     pagination={{ pageSize: 5 }}
+                    scroll={{ x: "max-content" }}
                 />
             </TabPane>
             <TabPane tab="Smart Sourcing" key="2">

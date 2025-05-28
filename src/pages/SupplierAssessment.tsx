@@ -257,7 +257,7 @@ const SupplierAssessment: React.FunctionComponent<ISupplierAssessmentPage> = (pr
             <Table
                 columns={columns}
                 dataSource={dataList}
-                scroll={{ y: 300 }}
+                scroll={{ x: "max-content" }}
                 rowClassName={() => "custom-row"}
                 bordered={false}
                 pagination={{ pageSize: 10 }}

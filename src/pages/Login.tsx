@@ -1,15 +1,12 @@
 import { Stack } from '@fluentui/react';
-import useNotification from 'antd/es/notification/useNotification';
+import { message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-// import { useHistory } from 'react-router-dom';
-// import { getAll, userStore } from '../utils/IndexedDB';
-// import { IUser } from '../Types';
-// import { hashPassword } from '../utils/helper';
-// import { useNotification } from '../hooks/useNotification';
+import { IUser } from '../Types';
+import axios from 'axios';
+import { Uri } from '../Uri';
 interface ILogin {
     authentication: Function,
-    // setUser: Function
 }
 const Login: React.FC<ILogin> = (props: ILogin) => {
     // const { openNotification, contextHolder } = useNotification();
@@ -17,44 +14,37 @@ const Login: React.FC<ILogin> = (props: ILogin) => {
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
-    // const handleLogin = async (e) => {
-    //     e.preventDefault();
-    //     if (!!!username || !!!password) {
-    //         openNotification({
-    //             message: "Warning",
-    //             description: "Please fill username and password!",
-    //             showProgress: true,
-    //             pauseOnHover: false,
-    //             notificationType: "warning"
-    //         });
-    //         return;
-    //     }
-    //     try {
-    //         const userData: IUser[] = await getAll(userStore);
-    //         const user = userData?.find((item: IUser) => item.username === username && item.password === hashPassword(password));
-    //         if (user) {
-    //             localStorage.setItem("user", JSON.stringify(user));
-    //             // props.setUser(user)
-    //             setUsername("");
-    //             setPassword("");
-    //             history.push('Index/Landing');
-    //         } else {
-    //             openNotification({
-    //                 message: "Error",
-    //                 description: "Incorrect username or password!",
-    //                 showProgress: true,
-    //                 pauseOnHover: false,
-    //                 notificationType: "error"
-    //             });
-    //         }
-    //     } catch (error) {
-    //         // displayError(String(error))
-    //     }
+    const handleLogin = async (e: any) => {
+        e.preventDefault();
+        if (!!!username || !!!password) {
+            message.warning("Please fill username and password!");
+            return;
+        }
+        try {
+            const requestUrl = `${Uri.rootUri}:${Uri.serverPort}${Uri.login}`;
+            const body = {
+                username: username,
+                password: password
+            }
+            const res = await axios.post(requestUrl, body);
+            const user: IUser = res.data.data;
+            if (user) {
+                localStorage.setItem("accessToken", user.accessToken!);
+                setUsername("");
+                setPassword("");
+                history.push('Index/Landing');
+                message.success("Login successfully");
+            } else {
+                message.error("Incorrect username or password!");
+            }
+        } catch (error) {
+            console.log(error);
+        }
 
-    // };
-    // useEffect(() => {
-    //     props.authentication();
-    // }, []);
+    };
+    useEffect(() => {
+        props.authentication();
+    }, []);
 
     return (
         <div>
@@ -63,18 +53,17 @@ const Login: React.FC<ILogin> = (props: ILogin) => {
                 <div className="left-section">
                     <div className="illustration">
                         {/* Replace with actual image when available */}
-                        <img src="/images/social_friends.png" alt="People expanding social circle" className="illustration-image" />
+                        <img src="/images/img-login.webp" alt="Stockwise" className="illustration-image" />
                         <h2>TURN INVENTORY INTO INSIGHT</h2>
                         <p>Smarter stock means smarter decisions!</p>
                     </div>
                 </div>
                 <div className="right-section">
                     <div className="login-box">
-                        <img src="/images/Logo.webp" />
+                        <img src="/images/stockwise.webp" />
                         <h2>Login</h2>
                         <p>Optimize your inventory. Let's begin!</p>
-                        {/* <form onSubmit={handleLogin}> */}
-                        <form onSubmit={() => { }}>
+                        <form onSubmit={handleLogin}>
                             <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value || "")} />
                             <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value || "")} />
                             <Stack horizontalAlign="center">

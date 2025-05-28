@@ -18,4 +18,7 @@ export class Uri {
     public static get InsertIncomingStock(): string { return import.meta.env["VITE_APP_API_INSERT_INCOMING_STOCK"] || "" }
     public static get CreateTransaction(): string { return import.meta.env["VITE_APP_API_CREATE_TRANSACTION"] || "" }
     public static get GetTransactions(): string { return import.meta.env["VITE_APP_API_GET_TRANSACTIONS"] || "" }
+    public static get serverPort(): string { return import.meta.env["VITE_APP_SERVER_PORT"] || "" }
+    public static get login(): string { return import.meta.env["VITE_APP_API_LOGIN"] || "" }
+    public static get refreshToken(): string { return import.meta.env["VITE_APP_API_REFRESH_TOKEN"] || "" }
 }

@@ -39,7 +39,7 @@ interface ICriteria {
 }
 
 
-export type ActionMode = "CREATE" | "EDIT" | "DELETE" 
+export type ActionMode = "CREATE" | "EDIT" | "DELETE" | "VIEW"
 export type SortDirection = 'asc' | 'desc';
 
 export type PriorityType = "1_VeryLow" | "2_Low" | "3_Medium" | "4_High" | "5_VeryHigh";
@@ -57,6 +57,7 @@ export interface IItem {
     unitName: string,
     priority: PriorityType,
     stock: number,
+    minimumStock: number,
     unitPrice: number,
     sellingPrice: number,
     lastTimeRestocked?: string, //Not mandatory in front end
@@ -166,4 +167,15 @@ export interface ITransaction {
         vatAmount: number
     }
     createdAt?: string
+}
+
+export interface IUser {
+    id: string,
+    username: string,
+    accessToken?: string
+}
+
+export interface ITokenInfo {
+    userId: string,
+    username: string,
 }

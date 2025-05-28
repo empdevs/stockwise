@@ -8,7 +8,7 @@ import { Stack } from "@fluentui/react";
 import { ApiService } from "../services/api.service";
 import { Uri } from "../Uri";
 import NewButton from "../components/NewButton";
-import { applyTextPlaceholders, auditLogItemGenerate } from "../helper/helper";
+import { applyTextPlaceholders, auditLogItemGenerate, rupiahFormat } from "../helper/helper";
 import TextArea from "antd/es/input/TextArea";
 
 const { Search } = Input;
@@ -37,6 +37,7 @@ const ItemPage: React.FunctionComponent<IItemsPage> = (props: IItemsPage) => {
     const [itemUnit, setItemUnit] = useState<IItemUnit>();
     const [prirority, setPriority] = useState<PriorityType>();
     const [stock, setStock] = useState<number>(0);
+    const [minimumStock, setMinimumStock] = useState<number>(0);
     const [unitPrice, setUnitPrice] = useState<number>(0);
     const [sellingPrice, setSellingPrice] = useState<number>(0);
     const [activeItem, setActiveItem] = useState<IItem>();
@@ -120,6 +121,7 @@ const ItemPage: React.FunctionComponent<IItemsPage> = (props: IItemsPage) => {
             createdAt: ""
         });
         setPriority(record?.priority);
+        setMinimumStock(record?.minimumStock as number);
         setStock(record?.stock as number);
         setUnitPrice(record?.unitPrice as number);
         setSellingPrice(record?.sellingPrice as number);
@@ -142,7 +144,7 @@ const ItemPage: React.FunctionComponent<IItemsPage> = (props: IItemsPage) => {
                     cancelText: "No",
                     onOk: async () => {
                         try {
-                            await apiService.deleteItem(applyTextPlaceholders(Uri.DeleteItem, { id: record.id }));
+                            await apiService.deleteItem(applyTextPlaceholders(Uri.DeleteItem, { id: record.id }), { itemCode: record.itemCode });
                             setDataList((prev) => prev.filter((item) => item.id !== record.id));
                             message.success("Item deleted successfully");
                         } catch (error) {
@@ -179,6 +181,9 @@ const ItemPage: React.FunctionComponent<IItemsPage> = (props: IItemsPage) => {
             title: "Unit", dataIndex: "unitName", key: "unitName"
         },
         {
+            title: "Minimum Stock", dataIndex: "minimumStock", key: "minimumStock"
+        },
+        {
             title: "Stock", dataIndex: "stock", key: "stock"
         },
         {
@@ -191,10 +196,21 @@ const ItemPage: React.FunctionComponent<IItemsPage> = (props: IItemsPage) => {
             }
         },
         {
-            title: "Selling Price", dataIndex: "sellingPrice", key: "sellingPrice"
+            title: "Selling Price",
+            dataIndex: "sellingPrice",
+            key: "sellingPrice",
+            render: (_, record) => {
+                return rupiahFormat(record.sellingPrice);
+            }
+
         },
         {
-            title: "Cost price", dataIndex: "unitPrice", key: "unitPrice"
+            title: "Cost price",
+            dataIndex: "unitPrice",
+            key: "unitPrice",
+            render: (_, record) => {
+                return rupiahFormat(record.unitPrice);
+            }
         },
         {
             title: "Last Restocked",
@@ -285,6 +301,7 @@ const ItemPage: React.FunctionComponent<IItemsPage> = (props: IItemsPage) => {
                         stock: stock,
                         unitPrice: unitPrice,
                         sellingPrice: sellingPrice,
+                        minimumStock: minimumStock
                     }
                     // Update
                     await apiService.insertItem<IItem>(Uri.InsertItem, data);
@@ -312,6 +329,7 @@ const ItemPage: React.FunctionComponent<IItemsPage> = (props: IItemsPage) => {
                         stock: stock,
                         unitPrice: unitPrice,
                         sellingPrice: sellingPrice,
+                        minimumStock: minimumStock
                     }
 
                     const auditTrail = auditLogItemGenerate(data, activeItem!, "update");
@@ -331,6 +349,8 @@ const ItemPage: React.FunctionComponent<IItemsPage> = (props: IItemsPage) => {
             default:
                 break;
         }
+
+        setItemData(undefined);
     };
 
     //SUPPLIER DATA END PART
@@ -406,7 +426,7 @@ const ItemPage: React.FunctionComponent<IItemsPage> = (props: IItemsPage) => {
                 <Table
                     columns={columns}
                     dataSource={dataList}
-                    scroll={{ y: 300 }}
+                    scroll={{ x: "max-content" }}
                     rowClassName={() => "custom-row"}
                     bordered={false}
                     pagination={{ pageSize: 10 }}
@@ -457,7 +477,7 @@ const ItemPage: React.FunctionComponent<IItemsPage> = (props: IItemsPage) => {
                         } placeholder="Input Item Code"
                         onChange={(e) => setItemCode(e.target.value)}
                         value={itemCode}
-                        disabled={(actionMode === "EDIT")}
+                        readOnly={(actionMode === "EDIT")}
                     />
 
 
@@ -542,12 +562,25 @@ const ItemPage: React.FunctionComponent<IItemsPage> = (props: IItemsPage) => {
                         className="custom-input"
                         addonBefore={
                             <div style={styles.addonLabel}>
+                                Minimum Stock
+                            </div>
+                        }
+                        placeholder="Input Minimum Stock"
+                        type="number"
+                        onChange={(e) => setMinimumStock(Number(e.target.value))}
+                        value={minimumStock}
+                    />
+                    <Input
+                        className="custom-input"
+                        addonBefore={
+                            <div style={styles.addonLabel}>
                                 Stock
                             </div>
                         }
                         placeholder="Input Stock"
                         type="number"
                         onChange={(e) => setStock(Number(e.target.value))}
+                        readOnly={(actionMode === "EDIT")}
                         value={stock}
                     />
 
@@ -562,7 +595,7 @@ const ItemPage: React.FunctionComponent<IItemsPage> = (props: IItemsPage) => {
                         type="number"
                         onChange={(e) => setUnitPrice(Number(e.target.value))}
                         value={unitPrice}
-                        disabled={(actionMode === "EDIT")}
+                        readOnly={(actionMode === "EDIT")}
                     />
 
                     <Input

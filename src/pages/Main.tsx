@@ -8,7 +8,7 @@ import {
     UserOutlined,
 } from "@ant-design/icons";
 
-import { Link, Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
+import { Link, Route, Switch, useHistory, useLocation, useRouteMatch } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Suppliers from "./SupplierPivot";
 import SupplierPivot from "./SupplierPivot";
@@ -19,13 +19,25 @@ const { Header, Sider, Content } = Layout;
 
 const Main: React.FC = () => {
 
-    const { url, path } = useRouteMatch();
+    const { url } = useRouteMatch();
+    const location = useLocation();
+    const pathname = location.pathname;
     const history = useHistory();
 
+    const handleLogout = () => {
+        localStorage.clear();
+        history.push("/Login");
+    };
     const onRouteClick = (url: string) => {
         history.push(url);
     }
-
+    const routes: any = {
+        "/Index/Dashboard": "1",
+        "/Index/Items": "2",
+        "/Index/Suppliers": "3",
+        "/Index/Orders": "4",
+    }
+    const activeRoute = routes[pathname] ? [routes[pathname]] : ["1"];
     return (
         <Layout style={{ minHeight: "100vh" }}>
             <Sider theme="light">
@@ -36,7 +48,7 @@ const Main: React.FC = () => {
                         style={{ width: 120 }}
                     />
                 </div>
-                <Menu mode="inline" defaultSelectedKeys={["1"]}>
+                <Menu mode="inline" defaultSelectedKeys={activeRoute}>
                     <Menu.Item onClick={() => onRouteClick(`${url}/Dashboard`)} key="1" icon={<DashboardOutlined />}>Dashboard</Menu.Item>
                     <Menu.Item onClick={() => onRouteClick(`${url}/Items`)} key="2" icon={<AppstoreOutlined />}>Items</Menu.Item>
                     <Menu.Item onClick={() => onRouteClick(`${url}/Suppliers`)} key="3" icon={<TeamOutlined />}>Suppliers</Menu.Item>
@@ -46,8 +58,10 @@ const Main: React.FC = () => {
 
             <Layout>
                 <Header style={{ background: "#fff", padding: 0, display: "flex", justifyContent: "flex-end", alignItems: "center", paddingRight: 20 }}>
-                    <Avatar icon={<UserOutlined />} style={{ marginRight: 8 }} />
-                    <Button type="link">Logout</Button>
+                    <Avatar icon={<UserOutlined />} style={{ marginRight: 0 }} />
+                    <Button type="link" onClick={handleLogout}>
+                        Logout
+                    </Button>
                 </Header>
 
                 <Content style={{ margin: "24px 16px", padding: 24, background: "#fff", borderRadius: 8 }}>

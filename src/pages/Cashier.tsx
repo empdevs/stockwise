@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Button, Checkbox, Input, message, Modal, Select } from "antd";
+import { Button, Checkbox, Dropdown, Input, Menu, message, Modal, Select } from "antd";
 import moment from "moment";
-import { IItem, IPayment, IPurchasedItem, ITransaction } from "../Types";
+import { ActionMode, IItem, IPayment, IPurchasedItem, ITransaction } from "../Types";
 import Table, { ColumnsType } from "antd/es/table";
 import { Stack } from "@fluentui/react";
 import { ApiService } from "../services/api.service";
 import { Uri } from "../Uri";
 import NewButton from "../components/NewButton";
 import { applyTextPlaceholders, auditLogItemGenerate, rupiahFormat, sumArray } from "../helper/helper";
+import { EllipsisOutlined, EyeOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 
@@ -52,6 +53,10 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
     const [grandTotal, setGrandTotal] = useState<number>(0);
     const [vatAmount, setVatAmount] = useState<number>(0);
     const [isVatChecked, setIsVatChecked] = useState<boolean>(false);
+
+    const [actionMode, setActionMode] = useState<ActionMode>();
+    const [activeItem, setActiveItem] = useState<ITransaction>();
+
 
     useEffect(() => {
         fetchItems();
@@ -100,6 +105,35 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
         }
     };
 
+    const setItemTransaction = (record: ITransaction | undefined) => {
+        setCustomerName(record?.customerName as string);
+        setCustomerContact(record?.customerContact as number);
+        setPurchasedItems(record?.items as IPurchasedItem[]);
+        setSubtotal(record?.subTotal as number);
+        setIsVatChecked((record?.vat?.vatAmount! > 0) as boolean);
+        setVatAmount(record?.vat?.vatAmount as number);
+        setGrandTotal(record?.total as number);
+        setPaymentMethod(record?.payment?.method);
+        setAmountPaid(record?.payment?.amountPaid as number);
+        setChange(record?.payment?.change as number);
+    }
+
+    const handleMenuClick = async (record: ITransaction | undefined, action: ActionMode) => {
+        setActionMode(action);
+        setActiveItem(record);
+        switch (action) {
+            case "VIEW":
+                setViewMode("TRANSACTION");
+                setItemTransaction(record);
+                break;
+            case "CREATE":
+                setViewMode("TRANSACTION");
+                setItemTransaction(record);
+                break;
+            default:
+                break;
+        }
+    };
 
     const columns: ColumnsType<ITransaction> = [
         {
@@ -136,6 +170,31 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                 const label = paymentOptions.find((item) => item.value == record.payment.method)?.label
                 return (label)
             }
+        },
+        {
+            title: "Action",
+            key: "action",
+            fixed: "right",
+            render: (_, record) => {
+                const menu = (
+                    <Menu
+                        onClick={({ key }) => handleMenuClick(record, key as ActionMode)}
+                        items={[
+                            {
+                                key: "VIEW",
+                                icon: <EyeOutlined />,
+                                label: "View",
+                            }
+                        ]}
+                    />
+                );
+
+                return (
+                    <Dropdown overlay={menu} trigger={["click"]}>
+                        <EllipsisOutlined />
+                    </Dropdown>
+                );
+            },
         }
     ];
     const orderColumns: ColumnsType<IPurchasedItem> = [
@@ -155,7 +214,12 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
             title: "Stock", dataIndex: "stock", key: "stock"
         },
         {
-            title: "Selling Price", dataIndex: "sellingPrice", key: "sellingPrice"
+            title: "Selling Price",
+            dataIndex: "sellingPrice",
+            key: "sellingPrice",
+            render: (_, record) => {
+                return rupiahFormat(record.sellingPrice);
+            }
         },
         {
             title: "Quantity",
@@ -193,6 +257,7 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                             setGrandTotal(grandTotal);
 
                         }}
+                        readOnly={(actionMode == "VIEW")}
                         value={record?.quantity}
                     />
                 )
@@ -226,6 +291,7 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                             const newPurchasedItems = purchasedItems.filter((item) => item.id !== record.id);
                             setPurchasedItems(newPurchasedItems)
                         }}
+                        disabled={(actionMode == "VIEW")}
                     >
                         Delete
                     </Button>
@@ -251,7 +317,12 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
             title: "Stock", dataIndex: "stock", key: "stock"
         },
         {
-            title: "Selling Price", dataIndex: "sellingPrice", key: "sellingPrice"
+            title: "Selling Price",
+            dataIndex: "sellingPrice",
+            key: "sellingPrice",
+            render: (_, record) => {
+                return rupiahFormat(record.sellingPrice);
+            }
         },
         {
             title: "",
@@ -479,7 +550,7 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                     <NewButton
                         text="Transaction"
                         onClick={() => {
-                            setViewMode("TRANSACTION");
+                            handleMenuClick(undefined, "CREATE");
                         }}
                     />
                 </Stack>
@@ -494,7 +565,7 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                     <Table
                         columns={columns}
                         dataSource={dataList}
-                        // scroll={{ y: 300 }}
+                        scroll={{ x: "max-content" }}
                         rowClassName={() => "custom-row"}
                         bordered={false}
                         pagination={{ pageSize: 10 }}
@@ -511,7 +582,10 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                 borderRadius: "20px"
             }}>
                 <Stack horizontalAlign="start">
-                    <Button onClick={() => setViewMode("VIEW")} type="default">
+                    <Button
+                        onClick={() => {
+                            setViewMode("VIEW");
+                        }} type="default">
                         ← Back
                     </Button>
                 </Stack>
@@ -544,6 +618,7 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                                 } placeholder="Input Customer Name"
                                 onChange={(e) => setCustomerName(e.target.value)}
                                 value={customerName}
+                                readOnly={(actionMode == "VIEW")}
                             />
 
                             <Input
@@ -556,6 +631,7 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                                 type="number"
                                 onChange={(e) => setCustomerContact(Number(e.target.value))}
                                 value={customerContact}
+                                readOnly={(actionMode == "VIEW")}
                             />
                         </Stack>
                         <Stack></Stack>
@@ -579,6 +655,7 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                                 const itemsProvided = items.filter((i) => !!!purchasedItems.find((p) => p.id === i.id));
                                 setPurchasedItemsData(itemsProvided);
                             }}
+                            disabled={(actionMode == "VIEW")}
                         >
 
                             Add Item
@@ -587,7 +664,7 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                     <Table
                         columns={orderColumns}
                         dataSource={purchasedItems}
-                        scroll={{ y: 300 }}
+                        scroll={{ x: "max-content" }}
                         bordered={false}
                         pagination={false}
                     />
@@ -628,6 +705,7 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                                         setIsVatChecked(value)
                                     }}
                                     checked={isVatChecked}
+                                    disabled={(actionMode == "VIEW")}
                                 />
                             </Stack>
                         </Stack>
@@ -657,6 +735,7 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                             onChange={(value) => setPaymentMethod(value)}
                             options={paymentOptions}
                             value={paymentMethod}
+                            disabled={(actionMode == "VIEW")}
                         />
                         <br />
                         {paymentMethod === "1_cash" &&
@@ -675,6 +754,7 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                                             type="number"
                                             onChange={(e) => setAmountPaid(Number(e.target.value))}
                                             value={amountPaid}
+                                            readOnly={(actionMode == "VIEW")}
                                         />
 
                                         <Input
@@ -704,7 +784,7 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                                                 height: '32px',
                                                 color: "#000"
                                             }}
-                                            disabled={(amountPaid < grandTotal)}
+                                            disabled={(amountPaid < grandTotal) || (actionMode == "VIEW")}
                                             onClick={() => {
                                                 const change = amountPaid - grandTotal;
                                                 setChange(change)
@@ -730,6 +810,7 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                             width: 140
                         }}
                         onClick={onFinish}
+                        disabled={(actionMode == "VIEW")}
                     >
 
                         Submit
@@ -779,7 +860,7 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                             <Table
                                 columns={itemColumns}
                                 dataSource={purchasedItemsTemp}
-                                scroll={{ y: 300 }}
+                                scroll={{ x: "max-content" }}
                                 bordered={false}
                                 pagination={false}
                             />

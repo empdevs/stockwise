@@ -8,7 +8,7 @@ import { Stack } from "@fluentui/react";
 import { ApiService } from "../services/api.service";
 import { Uri } from "../Uri";
 import NewButton from "../components/NewButton";
-import { applyTextPlaceholders } from "../helper/helper";
+import { applyTextPlaceholders, rupiahFormat } from "../helper/helper";
 import TextArea from "antd/es/input/TextArea";
 
 const { Search } = Input;
@@ -126,7 +126,12 @@ const IncomingStock: React.FunctionComponent<IIncomingStockPage> = (props: IInco
             title: "Stock Received", dataIndex: "stockQuantityReceived", key: "stockQuantityReceived"
         },
         {
-            title: "Cost price", dataIndex: "unitPrice", key: "unitPrice"
+            title: "Cost price",
+            dataIndex: "unitPrice",
+            key: "unitPrice",
+            render: (_, record) => {
+                return rupiahFormat(record.unitPrice);
+            }
         },
         {
             title: "Supplier Code", dataIndex: "supplierCode", key: "supplierCode"
@@ -262,7 +267,7 @@ const IncomingStock: React.FunctionComponent<IIncomingStockPage> = (props: IInco
                 <Table
                     columns={columns}
                     dataSource={dataList}
-                    scroll={{ y: 300 }}
+                    scroll={{ x: "max-content" }}
                     rowClassName={() => "custom-row"}
                     bordered={false}
                     pagination={{ pageSize: 10 }}
