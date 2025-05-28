@@ -5,6 +5,8 @@ import { useHistory } from 'react-router-dom';
 import { IUser } from '../Types';
 import axios from 'axios';
 import { Uri } from '../Uri';
+import imgLogin from "../../public/img-login.webp"
+import stockWise from "../../public/stockwise.webp"
 interface ILogin {
     authentication: Function,
 }
@@ -53,14 +55,14 @@ const Login: React.FC<ILogin> = (props: ILogin) => {
                 <div className="left-section">
                     <div className="illustration">
                         {/* Replace with actual image when available */}
-                        <img src="/public/img-login.webp" alt="Stockwise" className="illustration-image" />
+                        <img src={imgLogin} alt="Stockwise" className="illustration-image" />
                         <h2>TURN INVENTORY INTO INSIGHT</h2>
                         <p>Smarter stock means smarter decisions!</p>
                     </div>
                 </div>
                 <div className="right-section">
                     <div className="login-box">
-                        <img src="/public/stockwise.webp" />
+                        <img src={stockWise} />
                         <h2>Login</h2>
                         <p>Optimize your inventory. Let's begin!</p>
                         <form onSubmit={handleLogin}>

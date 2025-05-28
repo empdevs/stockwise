@@ -10,10 +10,10 @@ import {
 
 import { Link, Route, Switch, useHistory, useLocation, useRouteMatch } from "react-router-dom";
 import Dashboard from "./Dashboard";
-import Suppliers from "./SupplierPivot";
 import SupplierPivot from "./SupplierPivot";
 import ItemPivot from "./ItemPivot";
 import OrderPivot from "./OrderPivot";
+import stockWise from "../../public/stockwise.webp"
 
 const { Header, Sider, Content } = Layout;
 
@@ -43,7 +43,7 @@ const Main: React.FC = () => {
             <Sider theme="light">
                 <div style={{ height: 64, textAlign: "center", marginBottom: 30 }}>
                     <img
-                        src="/public/stockwise.webp"
+                        src={stockWise}
                         alt="Stockwise Logo"
                         style={{ width: 120 }}
                     />
