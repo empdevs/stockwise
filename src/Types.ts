@@ -155,7 +155,7 @@ export interface ITransaction {
     id?: string,
     invoiceId?: string,
     customerName: string,
-    customerContact: number,
+    customerContact: string,
     invoiceDate?: string,
     items: IPurchasedItem[],
     subTotal: number, //This is sub total amount before discount

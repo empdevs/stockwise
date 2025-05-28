@@ -161,6 +161,21 @@ const SupplierAssessment: React.FunctionComponent<ISupplierAssessmentPage> = (pr
     };
 
     const handleSubmit = async (action: ActionMode) => {
+        const criterias = [
+            productQuality,
+            onTimeDelivery,
+            stockAvailability,
+            completnessDocument,
+            warranty,
+            easyOrdering,
+            productPrice,
+            shippingCost
+        ];
+        if (criterias?.some((item) => (item < 0) || (item > 100))) {
+            message.error("Please ensure all criteria values are within the range of 0 to 100.");
+            return;
+        }
+
         switch (action) {
             case "CREATE":
                 try {

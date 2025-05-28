@@ -44,7 +44,7 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
     const [viewMode, setViewMode] = useState<"VIEW" | "TRANSACTION">("VIEW");
 
     const [customerName, setCustomerName] = useState<string>("");
-    const [customerContact, setCustomerContact] = useState<number>();
+    const [customerContact, setCustomerContact] = useState<string>("");
 
     const [paymentMethod, setPaymentMethod] = useState<IPayment["method"]>();
     const [amountPaid, setAmountPaid] = useState<number>(0);
@@ -107,7 +107,7 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
 
     const setItemTransaction = (record: ITransaction | undefined) => {
         setCustomerName(record?.customerName as string);
-        setCustomerContact(record?.customerContact as number);
+        setCustomerContact(record?.customerContact as string);
         setPurchasedItems(record?.items as IPurchasedItem[]);
         setSubtotal(record?.subTotal as number);
         setIsVatChecked((record?.vat?.vatAmount! > 0) as boolean);
@@ -439,7 +439,7 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
             message.success("Transaction created sucessfully");
 
             setCustomerName("");
-            setCustomerContact(undefined);
+            setCustomerContact("");
             setPurchasedItems([]);
             setSubtotal(0);
             setGrandTotal(0);
@@ -628,8 +628,7 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                                         Customer Contact
                                     </div>
                                 } placeholder="Input Customer Contact"
-                                type="number"
-                                onChange={(e) => setCustomerContact(Number(e.target.value))}
+                                onChange={(e) => setCustomerContact(e.target.value)}
                                 value={customerContact}
                                 readOnly={(actionMode == "VIEW")}
                             />

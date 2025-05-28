@@ -369,7 +369,9 @@ const SupplierData: React.FunctionComponent<ISupplierData> = (props: ISupplierDa
                                 htmlType="submit"
                                 style={styles.submitButton}
                             >
-                                Create
+                                {actionMode === "CREATE" ?
+                                    "Create" : actionMode === "EDIT" ?
+                                        "Edit" : ""}
                             </Button>
                         </div>
                     </Form.Item>
