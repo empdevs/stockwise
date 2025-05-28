@@ -23,7 +23,7 @@ const Login: React.FC<ILogin> = (props: ILogin) => {
             return;
         }
         try {
-            const requestUrl = `${Uri.rootUri}:${Uri.serverPort}${Uri.login}`;
+            const requestUrl = `${Uri.rootUri}${Uri.login}`;
             const body = {
                 username: username,
                 password: password

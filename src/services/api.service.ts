@@ -5,7 +5,7 @@ import { Uri } from "../Uri";
 
 const instance = axios.create({
     // baseURL: Uri.localUri,
-    baseURL: `${Uri.rootUri}:3000`,
+    baseURL: `${Uri.rootUri}`,
     timeout: 30000,
 });
 export abstract class Adapter {
