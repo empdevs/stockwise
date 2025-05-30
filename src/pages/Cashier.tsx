@@ -108,14 +108,14 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
     const setItemTransaction = (record: ITransaction | undefined) => {
         setCustomerName(record?.customerName as string);
         setCustomerContact(record?.customerContact as string);
-        setPurchasedItems(record?.items as IPurchasedItem[]);
-        setSubtotal(record?.subTotal as number);
+        setPurchasedItems(record?.items!?.length > 0 ? record?.items as IPurchasedItem[] : []);
+        setSubtotal(record?.subTotal! > 0 ? record?.subTotal! : 0 as number);
         setIsVatChecked((record?.vat?.vatAmount! > 0) as boolean);
-        setVatAmount(record?.vat?.vatAmount as number);
-        setGrandTotal(record?.total as number);
+        setVatAmount(record?.vat?.vatAmount! > 0 ? record?.vat.vatAmount! : 0 as number);
+        setGrandTotal(record?.total! > 0 ? record?.total! : 0 as number);
         setPaymentMethod(record?.payment?.method);
-        setAmountPaid(record?.payment?.amountPaid as number);
-        setChange(record?.payment?.change as number);
+        setAmountPaid(record?.payment?.amountPaid! > 0 ? record?.payment?.amountPaid! : 0 as number);
+        setChange(record?.payment?.change! > 0 ? record?.payment?.change! : 0 as number);
     }
 
     const handleMenuClick = async (record: ITransaction | undefined, action: ActionMode) => {
@@ -431,10 +431,8 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                     vatAmount: vatAmount
                 }
             }
-            console.log(data);
             // Update
             await apiService.insertItem<ITransaction>(Uri.CreateTransaction, data);
-
 
             message.success("Transaction created sucessfully");
 
@@ -700,7 +698,7 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                                         else grandTotal -= vatAmount;
 
                                         setGrandTotal(grandTotal);
-                                        setVatAmount(vatAmount)
+                                        setVatAmount(value ? vatAmount : 0)
                                         setIsVatChecked(value)
                                     }}
                                     checked={isVatChecked}
