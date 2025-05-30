@@ -20,4 +20,5 @@ export class Uri {
     public static get GetTransactions(): string { return import.meta.env["VITE_APP_API_GET_TRANSACTIONS"] || "" }
     public static get login(): string { return import.meta.env["VITE_APP_API_LOGIN"] || "" }
     public static get refreshToken(): string { return import.meta.env["VITE_APP_API_REFRESH_TOKEN"] || "" }
+    public static get GetLowStockItems(): string { return import.meta.env["VITE_APP_API_GET_LOW_STOCK_ITEMS"] || "" }
 }
