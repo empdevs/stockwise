@@ -248,7 +248,7 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                             let grandTotal = newSubtotal;
 
                             if (isVatChecked) {
-                                const vatRate = 0.12;
+                                const vatRate = 0.11;
                                 const vatAmount: number = vatRate * subtotal;
                                 grandTotal += vatAmount;
                                 setVatAmount(vatAmount);
@@ -427,7 +427,7 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                     change: change
                 },
                 vat: {
-                    vatRate: "12%",
+                    vatRate: "11%",
                     vatAmount: vatAmount
                 }
             }
@@ -684,14 +684,14 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                         </Stack>
                         <Stack horizontal horizontalAlign="space-between">
                             <Stack>
-                                <strong>VAT (12%)</strong>
+                                <strong>VAT (11%)</strong>
                             </Stack>
                             <Stack>
                                 <Checkbox
                                     onChange={(e) => {
                                         const value = e.target.checked;
                                         let grandTotal: number = subtotal;
-                                        const vatRate = 0.12;
+                                        const vatRate = 0.11;
                                         const vatAmount: number = vatRate * subtotal;
 
                                         if (value) grandTotal += vatAmount;
