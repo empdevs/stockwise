@@ -284,6 +284,17 @@ const ItemPage: React.FunctionComponent<IItemsPage> = (props: IItemsPage) => {
     };
 
     const handleSubmit = async (action: ActionMode) => {
+        const fields = [
+            itemCode,
+            name,
+            category?.id,
+            itemUnit?.id,
+            prirority,
+        ];
+        if (fields?.some((item) => item == "")) {
+            message.error("Please fill all required fields correctly.");
+            return;
+        }
         switch (action) {
             case "CREATE":
                 try {

@@ -695,7 +695,7 @@ const Cashier: React.FunctionComponent<ICashierPage> = (props: ICashierPage) => 
                                         const vatAmount: number = vatRate * subtotal;
 
                                         if (value) grandTotal += vatAmount;
-                                        else grandTotal -= vatAmount;
+                                        else grandTotal = subtotal;
 
                                         setGrandTotal(grandTotal);
                                         setVatAmount(value ? vatAmount : 0)
