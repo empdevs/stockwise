@@ -124,11 +124,11 @@ const SupplierAssessment: React.FunctionComponent<ISupplierAssessmentPage> = (pr
                     <Menu
                         onClick={({ key }) => handleMenuClick(record)}
                         items={[
-                            // {
-                            //     key: "ASSESSMENT",
-                            //     icon: <CheckSquareOutlined />,
-                            //     label: "Assessment",
-                            // }
+                            {
+                                key: "ASSESSMENT",
+                                icon: <CheckSquareOutlined />,
+                                label: "Assessment",
+                            }
                         ]}
                     />
                 );
