@@ -13,9 +13,9 @@ const Dashboard: React.FunctionComponent<IDashboard> = (props: IDashboard) => {
             <TabPane tab="Low Stock Alert" key="1">
                 <LowStockItems />
             </TabPane>
-            {/* <TabPane tab="Smart Sourcing" key="2">
+            <TabPane tab="Smart Sourcing" key="2">
                 <SmartSourcing />
-            </TabPane> */}
+            </TabPane>
         </Tabs>
     )
 }

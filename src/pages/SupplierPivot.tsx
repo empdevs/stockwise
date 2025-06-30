@@ -16,9 +16,9 @@ const SupplierPivot: React.FunctionComponent<ISupplierPivot> = (props: ISupplier
                 <TabPane tab="Supplier Data" key="1">
                     <SupplierData />
                 </TabPane>
-                {/* <TabPane tab="Supplier Assessment" key="2">
+                <TabPane tab="Supplier Assessment" key="2">
                     <SupplierAssessment />
-                </TabPane> */}
+                </TabPane>
             </Tabs>
 
         </div>
